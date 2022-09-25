@@ -43,7 +43,7 @@ do
                 drawship
             ;;
         q)
-	        echo -e "\nEspero vê-lo de novo!" && exit 0
+	        echo -e "\nEspero vê-lo de novo!" && tput cnorm && exit 0
 	        ;;
   esac
 done
