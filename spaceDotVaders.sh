@@ -3,11 +3,11 @@
 tput civis #Faz o cursor ficar invisivel
 clear #Limpa a tela
 
-FARRIGHT=50 #Máximo que a nave pode ir(tamanho da tela jogável)
+FARRIGHT=$(($(tput cols) - 9)) #Máxima posição para a direita
 
 # Movimentação da nave
-ship=25 # Posição inicial da nave(x)
-bottom=20 # Posição inicial da nave(y)
+ship=$(($FARRIGHT / 2)) # Posição inicial da nave(x)
+bottom=$(tput lines) # Posição inicial da nave(y)
 
 function drawship
 {
