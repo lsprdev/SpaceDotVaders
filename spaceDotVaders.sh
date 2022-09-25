@@ -3,9 +3,10 @@
 tput civis #Faz o cursor ficar invisivel
 clear #Limpa a tela
 
-FARRIGHT=50 #Máximo que a nave pode ir
-ship=25 # Posição inicial da nave(x)
+FARRIGHT=50 #Máximo que a nave pode ir(tamanho da tela jogável)
 
+# Movimentação da nave
+ship=25 # Posição inicial da nave(x)
 direction=1
 offset=20
 bottom=20
@@ -19,7 +20,6 @@ function drawship
   echo -en "$shipStyle"
 }
 
-clear
 drawship
 
 while :
@@ -35,12 +35,7 @@ do
 	drawship
 	;;
     q)
-	echo "Tchau!"
-	tput cvvis
-	stty echo
-	trap exit ALRM
-	sleep $DELAY
-	exit 0
+	echo -e "\nEspero vê-lo de novo!" && exit 0
 	;;
   esac
 done
