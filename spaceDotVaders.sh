@@ -3,67 +3,64 @@
 tput civis #Faz o cursor ficar invisivel
 clear #Limpa a tela
 
-FARRIGHT=$(($(tput cols) - 9)) #Máxima posição para a direita
-
 # Movimentação da nave
-ship=$(($FARRIGHT / 2)) # Posição inicial da nave(x)
-bottom=$(tput lines) # Posição inicial da nave(y)
-
+right=100 #Máxima posição para a direita
+bottom=40 # Posição inicial da nave(y)
+shipx=$((right/2)) # Posição inicial da nave(x)
 
 function move_ship {
     case "$1" in
-        LEFT) ship=$[ship-1] ;; # Left
-        RIGHT) ship=$[ship+1] ;; # Right
-        UP) bottom=$[bottom-1] ;; # Up
-        DOWN) bottom=$[bottom+1] ;; # Down
+        LEFT) shipx=$[shipx-1] ;; # Left
+        RIGHT) shipx=$[shipx+1] ;; # Right
     esac
-
-    if [ $ship -lt 0 ]; then
-        ship=0
+    if [ $shipx -lt 0 ]; then
+        shipx=0
     fi
-    if [ $ship -gt $FARRIGHT ]; then
-        ship=$FARRIGHT
-    fi
-    if [ $bottom -lt 0 ]; then
-        bottom=0
-    fi
-    if [ $bottom -gt 20 ]; then
-        bottom=20
+    if [ $shipx -gt $right ]; then
+        shipx=$right
     fi
 }
 
-function drawship
+function draw_area {
+    # Desenha a área de jogo
+    r=$1
+    b=$2
+    printf "\e[31m"
+    local x y o="█"
+    for ((x=0;x<=$r;x++))
+    do
+        printf  "\e[1;${x}f$o\e[$b;${x}f$o"
+    done
+    for ((y=0;y<=$b;y++))
+    do
+        printf "\e[${y};1f$o\e[${y};${r}f$o"
+    done
+}
+
+function draw_ship
 {
-    clear
-    tput cup $bottom
+    tput cup $bottom 0
     printf "%80s" " "
-    tput cup $bottom $ship
+    tput cup $bottom $shipx
     shipStyle=("|--|\033[1;31m*\033[0m|--|")
     echo -en "$shipStyle"
 }
 
-drawship
+draw_ship
 
 # Looping principal
 while :
 do
+    draw_area 100 40
     read -s -n 1 key #Lê o input do teclado
     case "$key" in
         a)
             move_ship LEFT
-            drawship
+            draw_ship
             ;;
         d)
             move_ship RIGHT
-            drawship
-            ;;
-        w)
-            move_ship UP
-            drawship
-            ;;
-        s)
-            move_ship DOWN
-            drawship
+            draw_ship
             ;;
         q)
 	        echo -e "\nEspero vê-lo de novo!" && tput cnorm && exit 0
