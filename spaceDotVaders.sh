@@ -5,19 +5,32 @@ clear #Limpa a tela
 
 # Movimentação da nave
 right=100 #Máxima posição para a direita
-bottom=40 # Posição inicial da nave(y)
+bottom=37 # Posição inicial da nave(y)
 shipx=$((right/2)) # Posição inicial da nave(x)
+
+# Cores 
+DARKGRAY='\033[1;30m'
+RED='\033[0;31m'    
+LIGHTRED='\033[1;31m'
+GREEN='\033[0;32m'    
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'    
+PURPLE='\033[0;35m'    
+LIGHTPURPLE='\033[1;35m'
+CYAN='\033[0;36m'    
+WHITE='\033[1;37m'
+SET='\033[0m'
 
 function move_ship {
     case "$1" in
         LEFT) shipx=$[shipx-1] ;; # Left
         RIGHT) shipx=$[shipx+1] ;; # Right
     esac
-    if [ $shipx -lt 0 ]; then
-        shipx=0
+    if [ $shipx -lt 2 ]; then
+        shipx=2
     fi
-    if [ $shipx -gt $right ]; then
-        shipx=$right
+    if [ $shipx -gt 89 ]; then
+        shipx=89
     fi
 }
 
@@ -25,7 +38,7 @@ function draw_area {
     # Desenha a área de jogo
     r=$1
     b=$2
-    printf "\e[31m"
+    printf "\e[1;32m"
     local x y o="█"
     for ((x=0;x<=$r;x++))
     do
@@ -42,7 +55,7 @@ function draw_ship
     tput cup $bottom 0
     printf "%80s" " "
     tput cup $bottom $shipx
-    shipStyle=("|--|\033[1;31m*\033[0m|--|")
+    shipStyle=("${WHITE}|--|${RED}*${SET}|--|${SET}")
     echo -en "$shipStyle"
 }
 
@@ -51,7 +64,7 @@ draw_ship
 # Looping principal
 while :
 do
-    draw_area 100 40
+    draw_area 100 42
     read -s -n 1 key #Lê o input do teclado
     case "$key" in
         a)
