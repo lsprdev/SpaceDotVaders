@@ -11,7 +11,7 @@ right=100 #Máxima posição para a direita
 bottom=$((all_lines-5)) # Posição inicial da nave(y)
 shipx=$((right/2)) # Posição inicial da nave(x)
 
-arenaX=100
+arenaX=$((all_columns)) #Tamanho da arena(x)
 arenaY=$((all_lines))
 
 # Cores 
@@ -35,8 +35,8 @@ function move_ship {
     if [ $shipx -lt 2 ]; then
         shipx=2
     fi
-    if [ $shipx -gt 89 ]; then
-        shipx=89
+    if [ $shipx -gt $((arenaX-11)) ]; then
+        shipx=$((arenaX-11))
     fi
 }
 
@@ -45,7 +45,7 @@ function draw_area {
     r=$1
     b=$2
     printf "\e[1;32m"
-    local x y o="█"
+    local x y o="#"
     for ((x=0;x<=$r;x++))
     do
         printf  "\e[1;${x}f$o\e[$b;${x}f$o"
