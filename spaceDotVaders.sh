@@ -3,10 +3,16 @@
 tput civis #Faz o cursor ficar invisivel
 clear #Limpa a tela
 
+all_lines=$(tput lines) #Pega o numero de linhas da tela
+all_columns=$(tput cols) #Pega o numero de colunas da tela
+
 # Movimentação da nave
 right=100 #Máxima posição para a direita
-bottom=37 # Posição inicial da nave(y)
+bottom=$((all_lines-5)) # Posição inicial da nave(y)
 shipx=$((right/2)) # Posição inicial da nave(x)
+
+arenaX=100
+arenaY=$((all_lines))
 
 # Cores 
 DARKGRAY='\033[1;30m'
@@ -60,11 +66,10 @@ function draw_ship
 }
 
 draw_ship
-
 # Looping principal
 while :
 do
-    draw_area 100 42
+    draw_area $arenaX $arenaY
     read -s -n 1 key #Lê o input do teclado
     case "$key" in
         a)
