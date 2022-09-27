@@ -27,6 +27,17 @@ CYAN='\033[0;36m'
 WHITE='\033[1;37m'
 SET='\033[0m'
 
+# function draw_ship {
+#     tput cup $bottom $shipx
+#     printf "%80s" " " 
+#     # echo -e " ^"
+#     printf "%80s" " " #Limpa a linha
+#     tput cup $((bottom+1)) $shipx
+#     echo -e " ^ "
+#     tput cup $((bottom+2)) $shipx
+#     echo -e "/ \ "
+# }
+
 function move_ship {
     case "$1" in
         LEFT) shipx=$[shipx-1] ;; # Left
